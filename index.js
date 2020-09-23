@@ -6,6 +6,8 @@ const express = require("express"),
 
 require("dotenv").config();
 
+//Midddleware
+app.use(cors());
 app.use(bodyParser.json());
 
 //import routes
