@@ -13,8 +13,10 @@ app.use(bodyParser.json());
 
 //import routes
 const categoriesRoute = require("./api/routes/categoriesRoute");
+const userRoute = require("./api/routes/usersRoute");
 
 app.use("/categories", categoriesRoute);
+app.use("/api/user", userRoute);
 
 //connect to db
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }, () => {
