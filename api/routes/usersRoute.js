@@ -33,12 +33,22 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
   // validate data
   const { error } = loginValidate(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
   }
+
+  //check exist user
+  const userExist = await User.findOne({ email: req.body.email });
+  if (!userExist) return res.status(400).send("Email is not found");
+
+  //password is correct or not
+  const validPass = await bcrypt.compare(req.body.password, userExist.password);
+  if (!validPass) return res.status(400).send("Invalid password");
+
+  res.send("Success");
 });
 
 module.exports = router;
