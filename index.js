@@ -3,7 +3,8 @@ const express = require("express"),
   port = process.env.PORT || 3000,
   mongoose = require("mongoose"),
   bodyParser = require("body-parser"),
-  cors = require("cors");
+  cors = require("cors"),
+  verifyUser = require("./api/routes/verifyToken");
 
 require("dotenv").config();
 
@@ -15,8 +16,9 @@ app.use(bodyParser.json());
 const categoriesRoute = require("./api/routes/categoriesRoute");
 const userRoute = require("./api/routes/usersRoute");
 
-app.use("/categories", categoriesRoute);
 app.use("/api/user", userRoute);
+app.use(verifyUser);
+app.use("/categories", categoriesRoute);
 
 //connect to db
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true }, () => {
